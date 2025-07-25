@@ -28,3 +28,6 @@ class Admin(db.Model):
             'last_login': self.last_login.isoformat() if self.last_login else None
         }
 
+@admin_bp.route('/login')
+def login():
+    return render_template('admin_login.html')
