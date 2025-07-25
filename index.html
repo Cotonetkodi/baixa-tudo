@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Partilha de Ficheiros</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-cloud-upload-alt"></i> Sistema de Partilha de Ficheiros</h1>
+                <nav class="nav">
+                    <button class="nav-btn active" data-section="upload">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
+                    <button class="nav-btn" data-section="search">
+                        <i class="fas fa-search"></i> Pesquisar
+                    </button>
+                    <a href="/admin" class="nav-btn admin-btn">
+                        <i class="fas fa-cog"></i> Admin
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <!-- Secção de Upload -->
+            <section id="upload-section" class="section active">
+                <div class="upload-card">
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Arraste ficheiros aqui ou clique para selecionar</h3>
+                        <p>Suporte para ficheiros até 5GB</p>
+                        <input type="file" id="file-input" multiple accept="*/*" hidden>
+                        <button class="btn btn-primary" id="select-btn">
+                            <i class="fas fa-folder-open"></i> Selecionar Ficheiros
+                        </button>
+                    </div>
+
+                    <div class="category-selection" id="category-section" style="display: none;">
+                        <h4>Selecione a categoria:</h4>
+                        <div class="category-grid">
+                            <label class="category-option">
+                                <input type="radio" name="category" value="videos">
+                                <div class="category-card">
+                                    <i class="fas fa-video"></i>
+                                    <span>Vídeos</span>
+                                </div>
+                            </label>
+                            <label class="category-option">
+                                <input type="radio" name="category" value="musica">
+                                <div class="category-card">
+                                    <i class="fas fa-music"></i>
+                                    <span>Música</span>
+                                </div>
+                            </label>
+                            <label class="category-option">
+                                <input type="radio" name="category" value="jogos">
+                                <div class="category-card">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Jogos</span>
+                                </div>
+                            </label>
+                            <label class="category-option">
+                                <input type="radio" name="category" value="aplicacoes">
+                                <div class="category-card">
+                                    <i class="fas fa-desktop"></i>
+                                    <span>Aplicações</span>
+                                </div>
+                            </label>
+                            <label class="category-option">
+                                <input type="radio" name="category" value="livros">
+                                <div class="category-card">
+                                    <i class="fas fa-book"></i>
+                                    <span>Livros</span>
+                                </div>
+                            </label>
+                            <label class="category-option">
+                                <input type="radio" name="category" value="outros">
+                                <div class="category-card">
+                                    <i class="fas fa-file"></i>
+                                    <span>Outros</span>
+                                </div>
+                            </label>
+                        </div>
+                        <button class="btn btn-success" id="start-upload-btn" disabled>
+                            <i class="fas fa-upload"></i> Iniciar Upload
+                        </button>
+                    </div>
+
+                    <div class="upload-progress" id="upload-progress" style="display: none;">
+                        <div class="progress-header">
+                            <h4>A carregar ficheiros...</h4>
+                            <span class="progress-text">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <div class="file-list" id="upload-file-list"></div>
+                    </div>
+
+                    <div class="upload-complete" id="upload-complete" style="display: none;">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Upload concluído com sucesso!</h3>
+                        <div class="uploaded-files" id="uploaded-files-list"></div>
+                        <button class="btn btn-primary" id="new-upload-btn">
+                            <i class="fas fa-plus"></i> Novo Upload
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Secção de Pesquisa -->
+            <section id="search-section" class="section">
+                <div class="search-card">
+                    <div class="search-header">
+                        <h2><i class="fas fa-search"></i> Pesquisar Ficheiros</h2>
+                    </div>
+                    
+                    <div class="search-controls">
+                        <div class="search-input-group">
+                            <input type="text" id="search-input" placeholder="Pesquisar por nome do ficheiro...">
+                            <button class="btn btn-primary" id="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Filtrar por categoria:</label>
+                            <select id="category-filter">
+                                <option value="">Todas as categorias</option>
+                                <option value="videos">Vídeos</option>
+                                <option value="musica">Música</option>
+                                <option value="jogos">Jogos</option>
+                                <option value="aplicacoes">Aplicações</option>
+                                <option value="livros">Livros</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="search-results" id="search-results">
+                        <div class="loading" id="search-loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> A pesquisar...
+                        </div>
+                        <div class="no-results" id="no-results" style="display: none;">
+                            <i class="fas fa-inbox"></i>
+                            <p>Nenhum ficheiro encontrado</p>
+                        </div>
+                        <div class="results-grid" id="results-grid"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
